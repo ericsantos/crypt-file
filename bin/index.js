@@ -10,8 +10,14 @@ let key = argv['key'],
     destinationFile = argv['out'],
     plain;
 
+if (!action || action === 'help') {
+    console.log('crypt-file encrypt --key here-is-your-key --in textfile.txt --out encryptfile');
+    return;
+}
+
 if (!key) {
-    key = 'SuperPowerfulKey';
+    console.log('error: private key is required!');
+    return;
 }
 
 key = crypto
@@ -72,6 +78,6 @@ switch (action) {
 
     default:
         console.log('Try something like...');
-        console.log('node app.js encrypt|decrypt --in sourcefile.txt --out destinationfile.txt --key cryptokey');
+        console.log('crypt-file encrypt|decrypt --in ./sourcefile --out ./destinationfile --key here-is-your-key');
         break;
 }

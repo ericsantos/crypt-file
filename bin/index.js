@@ -8,10 +8,24 @@ let key = argv['key'],
     action = argv['_'][0],
     sourceFile = argv['in'],
     destinationFile = argv['out'],
+    privateKeyFile = argv['keyFile'],
     plain;
 
+if (privateKeyFile) {
+    try {
+        key = fs.readFileSync(privateKeyFile, 'utf-8');
+        key = key.split(/\r?\n/)[0];
+    } catch (e) {
+        console.log('error: ' + e);
+        return;
+    }
+}
+
 if (!action || action === 'help' || argv['help']) {
-    console.log('crypt-file encrypt|decrypt --key here-is-your-key --in textfile.txt [--out encryptfile]');
+    console.log('Usage: crypt-file <command>');
+    console.log('where <command> is one of:\n\tencrypt, decrypt\n\nhow to use:');
+    console.log('encrypt\n\tcrypt-file encrypt --in filetobeencrypted.txt --out fileencrypted --keyFile yourprivatekey.txt\n\t or\n\tcrypt-file encrypt --in filetobeencrypted.txt --out fileencrypted --key yourkeywritedhere\n');
+    console.log('decrypt\n\tcrypt-file decrypt --in filetobedecrypted --out filedecrypted --keyFile yourprivatekey.txt\n\t or\n\tcrypt-file decrypt --in filetobedecrypted --out filedecrypted --key yourkeywritedhere\n');
     return;
 }
 
@@ -59,6 +73,7 @@ switch (action) {
             console.log(`File encrypted (name: ${destinationFile}) with success!`);
         } catch (err) {
             // An error occurred
+            console.log('error!');
             console.error(err);
         }
         break;
@@ -72,12 +87,9 @@ switch (action) {
             console.log(`File decrypted (name: ${destinationFile}) with success!`);
         } catch (err) {
             // An error occurred
+            console.log('error!');
             console.error(err);
         }
         break;
 
-    default:
-        console.log('Try something like...');
-        console.log('crypt-file encrypt|decrypt --key here-is-your-key --in ./source_file [--out ./destination_file]');
-        break;
 }

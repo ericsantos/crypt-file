@@ -8,12 +8,16 @@ where <command> is one of:
 how to use:
 
 encrypt
-`        crypt-file encrypt --in filetobeencrypted.txt --out fileencrypted --keyFile yourprivatekey.txt
-`         or
-`        crypt-file encrypt --in filetobeencrypted.txt --out fileencrypted --key yourkeywritedhere
-`
+`        crypt-file encrypt --in filetobeencrypted.txt --out fileencrypted --keyFile yourprivatekey.txt`
+        
+        or
+        
+`        crypt-file encrypt --in filetobeencrypted.txt --out fileencrypted --key yourkeywritedhere`
+
+
 decrypt
-`        crypt-file decrypt --in filetobedecrypted --out filedecrypted --keyFile yourprivatekey.txt
-`         or
-`        crypt-file decrypt --in filetobedecrypted --out filedecrypted --key yourkeywritedhere
-`
+`        crypt-file decrypt --in filetobedecrypted --out filedecrypted --keyFile yourprivatekey.txt`
+
+        or
+
+`       crypt-file decrypt --in filetobedecrypted --out filedecrypted --key yourkeywritedhere`

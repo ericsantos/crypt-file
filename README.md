@@ -1,23 +1,28 @@
 # crypt-file
-**Encrypt and decrypt files using AES-256.**
+#### Encrypt and decrypt files using AES-256.
 
-Usage: crypt-file <command>
+**Usage:** crypt-file <command>
 where <command> is one of:
         encrypt, decrypt
 
-how to use:
+##### Examples how to use:
 
-encrypt
-`        crypt-file encrypt --in filetobeencrypted.txt --out fileencrypted --keyFile yourprivatekey.txt`
+**encrypt**
+
+
+        crypt-file encrypt --in filetobeencrypted.txt --out fileencrypted --keyFile yourprivatekey.txt
+
         
-        or
         
-`        crypt-file encrypt --in filetobeencrypted.txt --out fileencrypted --key yourkeywritedhere`
+        crypt-file encrypt --in filetobeencrypted.txt --out fileencrypted --key yourkeywritedhere
 
 
-decrypt
-`        crypt-file decrypt --in filetobedecrypted --out filedecrypted --keyFile yourprivatekey.txt`
+**decrypt**
 
-        or
+        crypt-file decrypt --in filetobedecrypted --out filedecrypted --keyFile yourprivatekey.txt
 
-`       crypt-file decrypt --in filetobedecrypted --out filedecrypted --key yourkeywritedhere`
+
+        crypt-file decrypt --in filetobedecrypted --out filedecrypted --key yourkeywritedhere
+        
+        
+        crypt-file decrypt --in filetobedecrypted --show-only --key yourkeywritedhere

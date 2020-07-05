@@ -8,7 +8,8 @@ let key = argv['key'],
     action = argv['_'][0],
     sourceFile = argv['in'],
     destinationFile = argv['out'],
-    privateKeyFile = argv['keyFile'],
+    privateKeyFile = argv['key-file'],
+    onlyShow = argv['only-show'],
     plain;
 
 if (privateKeyFile) {
@@ -21,11 +22,11 @@ if (privateKeyFile) {
     }
 }
 
-if (!action || action === 'help' || argv['help']) {
+if (!action || action === 'help' || argv['help'] || !argv['in']) {
     console.log('Usage: crypt-file <command>');
     console.log('where <command> is one of:\n\tencrypt, decrypt\n\nhow to use:');
-    console.log('encrypt\n\tcrypt-file encrypt --in filetobeencrypted.txt --out fileencrypted --keyFile yourprivatekey.txt\n\t or\n\tcrypt-file encrypt --in filetobeencrypted.txt --out fileencrypted --key yourkeywritedhere\n');
-    console.log('decrypt\n\tcrypt-file decrypt --in filetobedecrypted --out filedecrypted --keyFile yourprivatekey.txt\n\t or\n\tcrypt-file decrypt --in filetobedecrypted --out filedecrypted --key yourkeywritedhere\n');
+    console.log('encrypt\n\tcrypt-file encrypt --in filetobeencrypted.txt --out fileencrypted --key-file yourprivatekey.txt\n\t or\n\tcrypt-file encrypt --in filetobeencrypted.txt --out fileencrypted --key yourkeywritedhere\n');
+    console.log('decrypt\n\tcrypt-file decrypt --in filetobedecrypted --out filedecrypted --key-file yourprivatekey.txt\n\t or\n\tcrypt-file decrypt --in filetobedecrypted --out filedecrypted --key yourkeywritedhere\n\t or\n\tcrypt-file decrypt --in filetobedecrypted --key yourkeywritedhere --only-show\n');
     return;
 }
 
@@ -82,6 +83,14 @@ switch (action) {
         destinationFile = destinationFile ? destinationFile : 'd_outputfile.txt';
         plain = fs.readFileSync(sourceFile);
         const decrypted = decrypt(plain);
+
+        if (onlyShow) {
+            console.log('DECRYPTED:')
+            console.log('----------')
+            console.log(decrypted.toString());
+            return;
+        }
+
         try {
             fs.writeFileSync(destinationFile, decrypted, 'utf-8');
             console.log(`File decrypted (name: ${destinationFile}) with success!`);

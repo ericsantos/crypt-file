@@ -10,8 +10,8 @@ let key = argv['key'],
     destinationFile = argv['out'],
     plain;
 
-if (!action || action === 'help') {
-    console.log('crypt-file encrypt --key here-is-your-key --in textfile.txt --out encryptfile');
+if (!action || action === 'help' || argv['help']) {
+    console.log('crypt-file encrypt|decrypt --key here-is-your-key --in textfile.txt [--out encryptfile]');
     return;
 }
 
@@ -78,6 +78,6 @@ switch (action) {
 
     default:
         console.log('Try something like...');
-        console.log('crypt-file encrypt|decrypt --in ./sourcefile --out ./destinationfile --key here-is-your-key');
+        console.log('crypt-file encrypt|decrypt --key here-is-your-key --in ./source_file [--out ./destination_file]');
         break;
 }

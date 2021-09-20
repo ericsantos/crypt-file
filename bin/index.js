@@ -1,7 +1,8 @@
 #! /usr/bin/env node
 const fs = require('fs'),
+    argv = require('minimist')(process.argv.slice(2)),
     CryptManager = require('../lib/crypt-manager'),
-    argv = require('minimist')(process.argv.slice(2));
+    utils = require('../lib/utils');
 
 let key = argv['key'],
     action = argv['_'][0],
@@ -14,8 +15,7 @@ let key = argv['key'],
 
 if (privateKeyFile) {
     try {
-        key = fs.readFileSync(privateKeyFile, 'utf-8');
-        key = key.split(/\r?\n/)[0];
+        key = utils.readUTF8File(privateKeyFile);
     } catch (e) {
         console.log('error: ' + e);
         return;

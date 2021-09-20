@@ -1,6 +1,6 @@
 {
   "name": "@ericsantos/crypt-file",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Encrypt and decrypt files using AES-256.",
   "main": "./bin/index.js",
   "scripts": {},

@@ -14,12 +14,7 @@ let key = argv['key'],
     manager;
 
 if (privateKeyFile) {
-    try {
-        key = utils.readUTF8File(privateKeyFile);
-    } catch (e) {
-        console.log('error: ' + e);
-        return;
-    }
+    key = utils.readUTF8File(privateKeyFile);
 }
 
 if (!action || action === 'help' || argv['help'] || !argv['in']) {

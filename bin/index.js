@@ -1,7 +1,6 @@
 #! /usr/bin/env node
-const crypto = require('crypto'),
-    fs = require('fs'),
-    algorithm = 'aes-256-ctr',
+const fs = require('fs'),
+    CryptManager = require('../lib/crypt-manager'),
     argv = require('minimist')(process.argv.slice(2));
 
 let key = argv['key'],
@@ -10,7 +9,8 @@ let key = argv['key'],
     destinationFile = argv['out'],
     privateKeyFile = argv['key-file'],
     onlyShow = argv['only-show'],
-    plain;
+    plain,
+    manager;
 
 if (privateKeyFile) {
     try {
@@ -35,40 +35,13 @@ if (!key) {
     return;
 }
 
-key = crypto
-    .createHash('sha256')
-    .update(String(key))
-    .digest('base64')
-    .substr(0, 32);
-
-const encrypt = (buffer) => {
-        let iv, cipher, result;
-        // Create an initialization vector
-        iv = crypto.randomBytes(16);
-        // Create a new cipher using the algorithm, key, and iv
-        cipher = crypto.createCipheriv(algorithm, key, iv);
-        // Create the new (encrypted) buffer
-        result = Buffer.concat([iv, cipher.update(buffer), cipher.final()]);
-        return result;
-    },
-    decrypt = (encrypted) => {
-        let iv, decipher, result;
-        // Get the iv: the first 16 bytes
-        iv = encrypted.slice(0, 16);
-        // Get the rest
-        encrypted = encrypted.slice(16);
-        // Create a decipher
-        decipher = crypto.createDecipheriv(algorithm, key, iv);
-        // Actually decrypt it
-        result = Buffer.concat([decipher.update(encrypted), decipher.final()]);
-        return result;
-    };
+manager = new CryptManager(key);
 
 switch (action) {
     case 'encrypt':
         destinationFile = destinationFile ? destinationFile : 'e_outputfile';
         plain = fs.readFileSync(sourceFile, 'utf8');
-        const encrypted = encrypt(plain);
+        const encrypted = manager.encrypt(plain);
         try {
             fs.writeFileSync(destinationFile, encrypted, 'utf-8');
             console.log(`File encrypted (name: ${destinationFile}) with success!`);
@@ -82,7 +55,7 @@ switch (action) {
     case 'decrypt':
         destinationFile = destinationFile ? destinationFile : 'd_outputfile.txt';
         plain = fs.readFileSync(sourceFile);
-        const decrypted = decrypt(plain);
+        const decrypted = manager.decrypt(plain);
 
         if (onlyShow) {
             console.log('DECRYPTED:')

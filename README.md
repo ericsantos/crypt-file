@@ -25,7 +25,7 @@ where <command> is one of:
 #### encrypt
 
 
-        crypt-file encrypt --in filetobeencrypted.txt --out fileencrypted --keyFile yourprivatekey.txt
+        crypt-file encrypt --in filetobeencrypted.txt --out fileencrypted --key-file yourprivatekey.txt
 
 ###### or
 
@@ -34,7 +34,7 @@ where <command> is one of:
 
 #### decrypt
 
-        crypt-file decrypt --in filetobedecrypted --out filedecrypted.txt --keyFile yourprivatekey.txt
+        crypt-file decrypt --in filetobedecrypted --out filedecrypted.txt --key-file yourprivatekey.txt
 
 ###### or
 

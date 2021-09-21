@@ -8,13 +8,12 @@ let key = argv['key'],
     action = argv['_'][0],
     sourceFile = argv['in'],
     destinationFile = argv['out'],
-    privateKeyFile = argv['key-file'],
+    keyFile = argv['key-file'],
     onlyShow = argv['only-show'],
-    plain,
     manager;
 
-if (privateKeyFile) {
-    key = utils.readUTF8File(privateKeyFile, true);
+if (keyFile) {
+    key = utils.readUTF8File(keyFile, true);
 }
 
 if (!action || action === 'help' || argv['help'] || !argv['in']) {
@@ -32,11 +31,10 @@ if (!key) {
 
 manager = new CryptManager(key);
 
-switch (action) {
-    case 'encrypt':
+const encrypt = (sourceFile, destinationFile) => {
+        const plain = utils.readUTF8File(sourceFile),
+            encrypted = manager.encrypt(plain);
         destinationFile = destinationFile ? destinationFile : 'e_outputfile';
-        plain = utils.readUTF8File(sourceFile);
-        const encrypted = manager.encrypt(plain);
         try {
             fs.writeFileSync(destinationFile, encrypted, 'utf-8');
             console.log(`File encrypted (name: ${destinationFile}) with success!`);
@@ -45,12 +43,11 @@ switch (action) {
             console.log('error!');
             console.error(err);
         }
-        break;
-
-    case 'decrypt':
+    },
+    decrypt = (sourceFile, destinationFile, onlyShow) => {
+        const plain = utils.readFile(sourceFile),
+            decrypted = manager.decrypt(plain);
         destinationFile = destinationFile ? destinationFile : 'd_outputfile.txt';
-        plain = utils.readUTF8File(sourceFile);
-        const decrypted = manager.decrypt(plain);
 
         if (onlyShow) {
             console.log('DECRYPTED:')
@@ -67,6 +64,21 @@ switch (action) {
             console.log('error!');
             console.error(err);
         }
+    };
+
+switch (action) {
+    case 'encrypt':
+    case 'e':
+        encrypt(sourceFile, destinationFile);
+        break;
+
+    case 'decrypt':
+    case 'd':
+        decrypt(sourceFile, destinationFile, onlyShow);
+        break;
+
+    default:
+        console.log('no command');
         break;
 
 }

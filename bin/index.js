@@ -14,7 +14,7 @@ let key = argv['key'],
     manager;
 
 if (privateKeyFile) {
-    key = utils.readUTF8File(privateKeyFile);
+    key = utils.readUTF8File(privateKeyFile, true);
 }
 
 if (!action || action === 'help' || argv['help'] || !argv['in']) {
@@ -35,7 +35,7 @@ manager = new CryptManager(key);
 switch (action) {
     case 'encrypt':
         destinationFile = destinationFile ? destinationFile : 'e_outputfile';
-        plain = fs.readFileSync(sourceFile, 'utf8');
+        plain = utils.readUTF8File(sourceFile);
         const encrypted = manager.encrypt(plain);
         try {
             fs.writeFileSync(destinationFile, encrypted, 'utf-8');
@@ -49,7 +49,7 @@ switch (action) {
 
     case 'decrypt':
         destinationFile = destinationFile ? destinationFile : 'd_outputfile.txt';
-        plain = fs.readFileSync(sourceFile);
+        plain = utils.readUTF8File(sourceFile);
         const decrypted = manager.decrypt(plain);
 
         if (onlyShow) {

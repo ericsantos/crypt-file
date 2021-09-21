@@ -3,7 +3,9 @@
   "version": "1.2.3",
   "description": "Encrypt and decrypt files using AES-256.",
   "main": "./bin/index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "tap"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -12,5 +14,8 @@
   },
   "bin": {
     "crypt-file": "./bin/index.js"
+  },
+  "devDependencies": {
+    "tap": "^15.0.9"
   }
 }

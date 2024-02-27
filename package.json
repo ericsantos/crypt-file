@@ -16,6 +16,6 @@
     "crypt-file": "./bin/index.js"
   },
   "devDependencies": {
-    "tap": "^15.0.9"
+    "tap": "^18.7.0"
   }
 }
